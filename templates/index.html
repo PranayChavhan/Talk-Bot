@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat GPT UI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-800 font-sans text-white">
+
+    <div class="flex h-screen">
+        <!-- New Chat Column -->
+        <div class="w-1/4  p-4 shadow-md">
+            <h2 class="text-lg font-semibold mb-4">New Chat</h2>
+            <div id="newChat" class="overflow-y-auto">
+                <!-- Chat messages go here -->
+                <div class="flex justify-start items-center mb-2">
+                    <div class="bg-gray-700 text-white p-2 rounded-lg">
+                        Hello! How can I help you today?
+                    </div>
+                </div>
+                <!-- Add more messages as needed -->
+            </div>
+            <div class="flex items-center mt-4">
+                <input type="text" placeholder="Type your message..."
+                    class="flex-grow p-2 border rounded-l-lg focus:outline-none">
+                <button class="bg-blue-500 text-white p-2 rounded-r-lg">Send</button>
+            </div>
+        </div>
+
+        <!-- Results Column -->
+        <div class="w-1/2 bg-white p-4 shadow-md">
+            <h2 class="text-lg font-semibold mb-4">Results</h2>
+            <div id="results" class="overflow-y-auto flex-1">
+                <!-- Result messages go here -->
+                <div class="flex justify-start items-center mb-2">
+                    <div class="bg-gray-700 text-white p-2 rounded-lg">
+                        Here are your results...
+                    </div>
+                </div>
+                <!-- Add more result messages as needed -->
+                <!-- Type your message input at the bottom -->
+                <div class="mt-auto">
+                    <input type="text" placeholder="Type your message..."
+                        class="w-full p-2 border rounded-lg focus:outline-none">
+                    <button class="bg-blue-500 text-white p-2 rounded-md mt-2">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload PDF Column -->
+        <div class="w-1/3 p-4 shadow-md">
+            <h2 class="text-lg font-semibold mb-4">Upload PDF</h2>
+            <!-- Upload PDF content goes here -->
+            <div class="flex flex-col gap-4 justify-center items-center mt-4">
+          <div class="flex flex-row gap-4 items-center mt-4">
+            <input type="file" id="pdfInput" class="p-2 border rounded-l-lg focus:outline-none text-white">
+            <button onclick="uploadPDF()" class="bg-blue-500 text-white p-3 rounded-r-lg">Upload</button>
+          </div class="flex flex-row items-center">
+                <!-- PDF Preview -->
+                <div id="pdfPreview" class="mt-4 "></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function uploadPDF() {
+            const pdfInput = document.getElementById('pdfInput');
+            const pdfPreview = document.getElementById('pdfPreview');
+
+            const file = pdfInput.files[0];
+
+            if (file && file.type === 'application/pdf') {
+                // Create a FileReader to read the PDF content
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const pdfContent = e.target.result;
+
+                    // Display the PDF preview
+                    pdfPreview.innerHTML = `
+                        <embed src="${pdfContent}" type="application/pdf" width="130%" height="600px"/>
+                    `;
+                };
+                // Read the PDF content
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a valid PDF file.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
